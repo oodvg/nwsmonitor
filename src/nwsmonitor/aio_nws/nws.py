@@ -143,7 +143,7 @@ async def fetch_autoplot(
         kwargs["_cb"] = 1
     kwargs["q"] = number
     if date:
-        kwargs["valid"] = date.strftime("%Y/%m/%d+%H%M")
+        kwargs["valid"] = date.strftime("%Y%2F%m%2F%d+%H%M")
 
     async with aiohttp.ClientSession(
         base_url=BASE_URL_IEM, raise_for_status=True
