@@ -1524,7 +1524,7 @@ async def spc_wpc_outlook(
         day = 5
     if timestamp is not None:
         try:
-            timestamp = datetime.datetime.strptime("%Y%/m/%d %H%M")
+            timestamp = datetime.datetime.strptime(timestamp, "%Y%/m/%d %H%M")
         except ValueError as e:
             raise ValueError(
                 "Wrong date format. Must be YYYY/mm/dd HH24MI. "
