@@ -1501,9 +1501,12 @@ async def spc_wpc_outlook(
         max_value=10,
     ),  # type: ignore
     sector: Option(
-        AutoplotSector,
+        str,
         description="Sector to plot. Ignored if extent is not State/Sector. (Default: CONUS)",
-        default=AutoplotSector.conus,
+        default=AutoplotSector.conus.value,
+        autocomplete=discord.utils.basic_autocomplete(
+            [s.value for s in AutoplotSector]
+        ),
     ),  # type: ignore
     timestamp: Option(
         str,
@@ -1529,7 +1532,10 @@ async def spc_wpc_outlook(
             ) from e
     extent = extent.lower()
     outlook_subtype = outlook_subtype.lower()
-    sector = sector.name
+    for s in AutoplotSector:
+        if s.value == sector:
+            sector = s.name
+            break
     await nws.spc_wpc_outlook(
         day=day,
         type=outlook_type,
