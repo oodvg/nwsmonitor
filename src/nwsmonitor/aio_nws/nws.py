@@ -132,7 +132,8 @@ async def fetch_autoplot(
     date: Optional[datetime.datetime] = None,
     **kwargs,
 ) -> None:
-    from urllib.parse import quote_plus
+    from urllib.parse import urlencode
+    from yarl import URL
 
     headers = {"User-Agent": USER_AGENT}
 
@@ -148,15 +149,17 @@ async def fetch_autoplot(
         kwargs["_cb"] = 1
     kwargs["q"] = number
     if date:
-        kwargs["valid"] = quote_plus(date.strftime("%Y/%m/%d %H%M"))
+        kwargs["valid"] = date.strftime("%Y/%m/%d %H%M")
 
     async with aiohttp.ClientSession(
         base_url=BASE_URL_IEM, raise_for_status=True, requote_redirect_url=False
     ) as session:
         parser = AutoplotParser()
+        # IEM is really picky with encoding so I need this to be able
+        # to bypass YARL's fuckery
+        params = urlencode(kwargs)
         async with session.get(
-            AUTOPLOT_PATH_IEM,
-            params=kwargs,
+            URL(f"{AUTOPLOT_PATH_IEM}/?{params}", encoded=True),
             headers=headers,
             raise_for_status=check_status,
             timeout=aiohttp.ClientTimeout(total=60),
