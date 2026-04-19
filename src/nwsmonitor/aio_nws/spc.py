@@ -1,16 +1,21 @@
 import aiohttp
 import pandas as pd
 from .rss_parser import RSSParser
+from .nws import USER_AGENT
 
 SPC_FEED_URL = "https://weather.im/iembot-rss/room/spcchat.xml"
 WPC_FEED_URL = "https://weather.im/iembot-rss/room/wpcchat.xml"
 
 
 async def _fetch(session, uri) -> pd.DataFrame:
+    headers = {"User-Agent": USER_AGENT}
     parser = RSSParser()
     parser.reset()  # make sure there are no residual data
     async with session.get(
-        uri, raise_for_status=True, timeout=aiohttp.ClientTimeout(total=60)
+        uri,
+        headers=headers,
+        raise_for_status=True,
+        timeout=aiohttp.ClientTimeout(total=60),
     ) as resp:
         parser.feed(await resp.text())
         article_list = parser.article_list
