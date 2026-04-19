@@ -49,6 +49,10 @@ settings = bot.create_group(
     integration_types={discord.IntegrationType.guild_install},
 )
 filtering = settings.create_subgroup("filtering", "Settings related to filtering")
+autoplot = bot.create_group(
+    "autoplot",
+    "Use an IEM Autoplot app",
+)
 _log = logging.getLogger(__name__)
 
 
@@ -1451,3 +1455,91 @@ async def resend_alert(
             if channel_id is not None:
                 await send_alerts(guild.id, channel_id, consolidated_alert)
     await ctx.respond("Alert sent.")
+
+
+@autoplot.command(name="spc_wpc_outlook", description="Plot an SPC/WPC outlook")
+async def spc_wpc_outlook(
+    ctx: discord.ApplicationContext,
+    day: Option(
+        int,
+        description="Day number, or 0 for the day 4-8 outlook. (Default: 1)",
+        default=1,
+        min_value=0,
+        max_value=8,
+    ),  # type: ignore
+    outlook_type: Option(
+        str,
+        description="Which type of outlook? (Default: convective)",
+        choices=["Convective", "Fire Weather", "Excessive Rainfall"],
+        default="Convective",
+    ),  # type: ignore
+    outlook_subtype: Option(
+        str,
+        description="SPC Convective Outlook category. Ignored if Day>2. (Default: Categorical)",
+        choices=["Categorical", "Tornado", "Wind", "Hail"],
+        default="Categorical",
+    ),  # type: ignore
+    extent: Option(
+        str,
+        description="Plot by... (Default: State/Sector)",
+        choices=["WFO", "State/Sector", "FEMA Region"],
+        default="State/Sector",
+    ),  # type: ignore
+    wfo: Option(
+        str,
+        description="WFO to plot. Ignored if extent is not WFO. (Default: LWX)",
+        default="LWX",
+        autocomplete=discord.utils.basic_autocomplete(
+            [w.name for w in WFO if not (w == WFO.AAQ or w == WFO.HEB)]
+        ),
+    ),  # type: ignore
+    fema: Option(
+        int,
+        description="FEMA region to plot. Ignored if extent is not FEMA region. (Default: 3)",
+        default=3,
+        min_value=1,
+        max_value=10,
+    ),  # type: ignore
+    sector: Option(
+        AutoplotSector,
+        description="Sector to plot. Ignored if extent is not State/Sector. (Default: CONUS)",
+        default=AutoplotSector.conus,
+    ),  # type: ignore
+    timestamp: Option(
+        str,
+        description=(
+            "Outlook timestamp in UTC, or current time if not specified. "
+            "(YYYY/mm/dd HH24MI)"
+        ),
+        required=False,
+    ),  # type: ignore
+):
+    await ctx.defer()
+    if day > 2 and outlook_type == "Fire Weather":
+        day = 0
+    if day > 5 and outlook_type == "Excessive Rainfall":
+        day = 5
+    if timestamp is not None:
+        try:
+            timestamp = datetime.datetime.strptime("%Y%/m/%d %H%M")
+        except ValueError as e:
+            raise ValueError(
+                "Wrong date format. Must be YYYY/mm/dd HH24MI. "
+                f"Example: {datetime.datetime.now().strftime("%Y%/m/%d %H%M")}"
+            ) from e
+    extent = extent.lower()
+    outlook_subtype = outlook_subtype.lower()
+    sector = sector.name
+    await nws.spc_wpc_outlook(
+        day=day,
+        type=outlook_type,
+        cat=outlook_subtype,
+        extent=extent,
+        wfo=wfo,
+        fema=fema,
+        csector=sector,
+        valid=timestamp,
+    )
+    await ctx.respond(
+        file=discord.File("autoplot.png", description="IEM Autoplot App #220")
+    )

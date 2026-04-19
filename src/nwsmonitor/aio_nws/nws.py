@@ -393,11 +393,11 @@ async def spc_wpc_outlook(
     """
     type_real = None
     match type:
-        case 0 | "conv" | "C":
+        case 0 | "conv" | "C" | "Convective":
             type_real = "C"
-        case 1 | "fire" | "F":
+        case 1 | "fire" | "F" | "Fire Weather":
             type_real = "F"
-        case 2 | "ero" | "E":
+        case 2 | "ero" | "E" | "Excessive Rainfall":
             type_real = "E"
         case _:
             raise ValueError("Unknown outlook type.")
@@ -421,9 +421,9 @@ async def spc_wpc_outlook(
     match extent:
         case 0 | "wfo" | "cwa":
             t = "cwa"
-        case 1 | "state" | "sector":
+        case 1 | "state" | "sector" | "state/sector":
             t = "state"
-        case 2 | "fema":
+        case 2 | "fema" | "fema region":
             t = "fema"
         case _:
             raise ValueError("Invalid extent type.")
