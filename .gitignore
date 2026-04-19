@@ -7,4 +7,5 @@ nwsmonitor.json
 *.log
 *.png
 *.html
+core.*
 .vscode
