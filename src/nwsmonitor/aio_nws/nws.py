@@ -91,7 +91,10 @@ class AutoplotParser(HTMLParser):
 
 async def check_status(response: aiohttp.ClientResponse) -> None:
     if response.status not in {200, 301}:
-        details = await response.json()
+        try:
+            details = await response.json()
+        except aiohttp.ClientResponseError:
+            details = await response.text()
         headers = response.headers
         raise RuntimeError(f"Status {response.status}. {details=}; {headers=}")
 
@@ -148,7 +151,7 @@ async def fetch_autoplot(
         kwargs["valid"] = quote_plus(date.strftime("%Y/%m/%d %H%M"))
 
     async with aiohttp.ClientSession(
-        base_url=BASE_URL_IEM, raise_for_status=True
+        base_url=BASE_URL_IEM, raise_for_status=True, requote_redirect_url=False
     ) as session:
         parser = AutoplotParser()
         async with session.get(
