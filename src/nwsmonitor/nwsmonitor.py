@@ -751,7 +751,7 @@ async def current_conditions(
     station_id = obs["stationId"]
     station_name = obs["stationName"]
     obs_time = datetime.datetime.fromisoformat(obs["timestamp"])
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.timezone.utc)
     embed = discord.Embed(
         title=f"Current conditions at {station_name} ({station_id})",
         thumbnail=obs["icon"],
