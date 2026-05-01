@@ -746,11 +746,12 @@ async def current_conditions(
     location: Option(str, description="Address; City, State; or ZIP code."),  # type: ignore
 ):
     await ctx.defer()
-    obs = (await nws.get_forecast(location))[0]
+    obs, _, real_loc = await nws.get_forecast(location)
     alerts = await nws.alerts_for_location(location, status="actual")
-    station_name = obs["station"][-4:]
+    station_id = obs["stationId"]
+    station_name = obs["stationName"]
     embed = discord.Embed(
-        title=f"Current conditions at {station_name}",
+        title=f"Current conditions at {station_name} ({station_id})",
         thumbnail=obs["icon"],
         timestamp=datetime.datetime.fromisoformat(obs["timestamp"]),
     )
@@ -780,6 +781,9 @@ async def current_conditions(
     heat_index_f = NaN if heat_index is None else celsius_to_fahrenheit(heat_index)
     msg = ""
     with StringIO() as desc:
+        desc.write(
+            f"Requested location: {real_loc.address.removesuffix(', United States')}\n"
+        )
         desc.write(f"Weather: {obs['textDescription']}\n")
         desc.write(f"Temperature: {temp_f:.0f}F ({temp:.0f}C)\n")
         desc.write(f"Dew point: {dew_f:.0f}F ({dew:.0f}C)\n")
@@ -894,10 +898,8 @@ async def glossary(
     gloss = await nws.glossary()
     terms = gloss[gloss["term"] == term]
     if terms.empty:
-        await ctx.respond(
-            "Term not found. (Check your spelling!)\n\
-Note: Terms are case-sensitive. Try using title case!"
-        )
+        await ctx.respond("Term not found. (Check your spelling!)\n\
+Note: Terms are case-sensitive. Try using title case!")
     else:
         with StringIO() as ss:
             for t, d in zip(terms["term"], terms["definition"]):
@@ -1017,11 +1019,9 @@ async def alerts(
                 f"{len(alerts_list)} alert(s) found.", file=discord.File(fp)
             )
     else:
-        await ctx.respond(
-            "No alerts found with the given parameters.\n\
+        await ctx.respond("No alerts found with the given parameters.\n\
 If looking for older alerts, try using the \
-[IEM NWS Text Product Finder](https://mesonet.agron.iastate.edu/wx/afos)."
-        )
+[IEM NWS Text Product Finder](https://mesonet.agron.iastate.edu/wx/afos).")
 
 
 @settings.command(
@@ -1039,10 +1039,8 @@ async def set_alert_channel(
         server_vars.write("monitor_channel", channel.id, ctx.guild_id)
         await ctx.respond(f"Successfully set the alert channel to {channel}!")
     else:
-        await ctx.respond(
-            f"I cannot send messages to that channel.\n\
-Give me permission to post in said channel, or use a different channel."
-        )
+        await ctx.respond(f"I cannot send messages to that channel.\n\
+Give me permission to post in said channel, or use a different channel.")
 
 
 @filtering.command(
@@ -1128,10 +1126,8 @@ async def exclude_marine_alerts(ctx: discord.ApplicationContext):
     else:
         exclusions = [a.value for a in MARINE_ALERTS]
     server_vars.write("exclude_alerts", exclusions, ctx.guild_id)
-    await ctx.respond(
-        "Added all marine alerts to the exclusion list. Note: Only alert \
-types that are exclusively issued in marine locations are excluded."
-    )
+    await ctx.respond("Added all marine alerts to the exclusion list. Note: Only alert \
+types that are exclusively issued in marine locations are excluded.")
 
 
 @filtering.command(
@@ -1236,16 +1232,14 @@ async def show_settings(ctx: discord.ApplicationContext):
         STR_ALERTS - STR_SVR_ALERTS
     ):
         alert_exclusions = "(SVR WX mode)"
-    await ctx.respond(
-        f"# Settings\n\
+    await ctx.respond(f"# Settings\n\
 Alert channel: {alert_channel}\n\
 SPC channel: {spc_channel}\n\
 WPC channel: {wpc_channel}\n\
 Excluded alerts: {alert_exclusions}\n\
 Excluded WFOs: {wfo_exclusions}\n\
 Monitoring WFOs: {wfo_list}\n\
-Uptime: {process_uptime_human_readable()}"
-    )
+Uptime: {process_uptime_human_readable()}")
 
 
 @settings.command(
@@ -1262,10 +1256,8 @@ async def set_spc_channel(
         server_vars.write("spc_channel", channel.id, ctx.guild_id)
         await ctx.respond(f"Successfully set the SPC channel to {channel}!")
     else:
-        await ctx.respond(
-            f"I cannot send messages to that channel.\n\
-Give me permission to post in said channel, or use a different channel."
-        )
+        await ctx.respond(f"I cannot send messages to that channel.\n\
+Give me permission to post in said channel, or use a different channel.")
 
 
 @settings.command(
@@ -1282,10 +1274,8 @@ async def set_wpc_channel(
         server_vars.write("wpc_channel", channel.id, ctx.guild_id)
         await ctx.respond(f"Successfully set the WPC channel to {channel}!")
     else:
-        await ctx.respond(
-            f"I cannot send messages to that channel.\n\
-Give me permission to post in said channel, or use a different channel."
-        )
+        await ctx.respond(f"I cannot send messages to that channel.\n\
+Give me permission to post in said channel, or use a different channel.")
 
 
 @bot.slash_command(name="purge", description="Clear all cached data")
@@ -1312,10 +1302,8 @@ async def bulletin_channel(
         server_vars.write("bulletin_channel", channel.id, ctx.guild_id)
         await ctx.respond(f"Successfully set the WPC channel to {channel}!")
     else:
-        await ctx.respond(
-            f"I cannot send messages to that channel.\n\
-Give me permission to post in said channel, or use a different channel."
-        )
+        await ctx.respond(f"I cannot send messages to that channel.\n\
+Give me permission to post in said channel, or use a different channel.")
 
 
 async def send_bulletin(
