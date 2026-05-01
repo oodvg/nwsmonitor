@@ -750,10 +750,12 @@ async def current_conditions(
     alerts = await nws.alerts_for_location(location, status="actual")
     station_id = obs["stationId"]
     station_name = obs["stationName"]
+    obs_time = datetime.datetime.fromisoformat(obs["timestamp"])
+    now = datetime.datetime.now()
     embed = discord.Embed(
         title=f"Current conditions at {station_name} ({station_id})",
         thumbnail=obs["icon"],
-        timestamp=datetime.datetime.fromisoformat(obs["timestamp"]),
+        timestamp=obs_time,
     )
     temp = obs["temperature"]["value"]
     temp_f = NaN if temp is None else celsius_to_fahrenheit(temp)
@@ -806,8 +808,17 @@ async def current_conditions(
                 f"Pressure: {pressure_inhg:.2f} in. Hg ({pressure / 100:.0f} mb)\n"
             )
         embed.description = desc.getvalue()
-    if not alerts.empty:
-        with StringIO() as alerts_desc:
+    with StringIO() as alerts_desc:
+        if (now - obs_time) >= datetime.timedelta(hours=1):
+            _log.warning(
+                f"Obtained an observation from {station_id} that is at least "
+                f"an hour old ({obs_time=}). Is the NWS API behind?"
+            )
+            alerts_desc.write(
+                "Warning: This observation is more than one hour old. "
+                "Please check for an updated observation.\n"
+            )
+        if not alerts.empty:
             if len(alerts) == 1:
                 alerts_desc.write("There is 1 alert in effect for this location:\n")
             else:
@@ -828,7 +839,7 @@ async def current_conditions(
                     end_ts = int(datetime.datetime.fromisoformat(ed).timestamp())
                     alerts_desc.write(f" until <t:{end_ts}:f>")
                 alerts_desc.write("\n")
-            msg = alerts_desc.getvalue()
+        msg = alerts_desc.getvalue()
     if msg:
         await ctx.respond(msg, embed=embed)
     else:
