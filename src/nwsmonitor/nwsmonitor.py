@@ -259,7 +259,7 @@ class NWSMonitor(commands.Cog):
                         and not (
                             sn in excluded_wfos
                             or ev in excluded_alerts
-                            or ev == AlertType.TEST.value
+                            or ev == AlertType.TST.value
                         )
                         and (is_civ(p) or sn in WFO)
                         and ((not wfo_list) or sn in wfo_list)
@@ -309,7 +309,7 @@ If you are in the affected area, seek higher ground now!",
                                             is_test,
                                         )
                                     if (
-                                        ev == AlertType.TSW.value
+                                        ev == AlertType.TSU.value
                                         and get_alert_status(p, mt)
                                         != ValidTimeEventCodeVerb.CAN.value
                                     ):
@@ -489,7 +489,7 @@ def is_emergency(params: dict, alert_type: Optional[str] = None):
         is_tore(params)
         or is_ffwe(params)
         or alert_type == AlertType.EWW.value
-        or alert_type == AlertType.TSW.value
+        or alert_type == AlertType.TSU.value
     )
 
 
@@ -548,7 +548,7 @@ async def send_alerts(
             status = alert[13]
             _log.debug(f"{desc=}")
             _log.debug(f"{inst=}")
-            if event == AlertType.TEST.value:
+            if event == AlertType.TST.value:
                 continue
 
             if not isinstance(params, dict):
@@ -619,8 +619,8 @@ async def send_alerts(
                 match event:
                     case AlertType.BZW.value:
                         event = SpecialAlert.PDS_BZW.value
-                    case AlertType.ICE.value:
-                        event = SpecialAlert.PDS_ICE.value
+                    case AlertType.ISW.value:
+                        event = SpecialAlert.PDS_ISW.value
                     case AlertType.RFW.value:
                         event = SpecialAlert.PDS_RFW.value
                     case AlertType.TOA.value:

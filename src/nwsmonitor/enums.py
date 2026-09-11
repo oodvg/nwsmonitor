@@ -133,19 +133,15 @@ class AlertType(Enum):
     TOE = "911 Telephone Outage"
     ADR = "Administrative Message"
     AQA = "Air Quality Alert"
-    ASA = "Air Stagnation Advisory"
-    FLY_ARROYO = "Arroyo And Small Stream Flood Advisory"
-    ASH_ADV = "Ashfall Advisory"
-    ASH_WARN = "Ashfall Warning"
-    AVY = "Avalanche Advisory"
+    ASY = "Air Stagnation Advisory"
+    AFW = "Ashfall Warning"
+    AFY = "Ashfall Advisory"
+    SAB = "Avalanche Advisory"
     AVW = "Avalanche Warning"
     AVA = "Avalanche Watch"
     BHS = "Beach Hazards Statement"
     BLU = "Blue Alert"
     BZW = "Blizzard Warning"
-    BZA = "Blizzard Watch"
-    BDY = "Blowing Dust Advisory"
-    BDW = "Blowing Dust Warning"
     BWY = "Brisk Wind Advisory"
     CAE = "Child Abduction Emergency"
     CDW = "Civil Danger Warning"
@@ -155,9 +151,9 @@ class AlertType(Enum):
     CFW = "Coastal Flood Warning"
     CFA = "Coastal Flood Watch"
     CWY = "Cold Weather Advisory"
-    FOG = "Dense Fog Advisory"
-    SMOKE = "Dense Smoke Advisory"
-    DUST = "Dust Advisory"
+    FGY = "Dense Fog Advisory"
+    SMY = "Dense Smoke Advisory"
+    DSY = "Dust Advisory"
     DSW = "Dust Storm Warning"
     EQW = "Earthquake Warning"
     EVI = "Evacuation Immediate"
@@ -165,7 +161,7 @@ class AlertType(Enum):
     EHA = "Extreme Heat Watch"
     ECW = "Extreme Cold Warning"
     ECA = "Extreme Cold Watch"
-    EFD = "Extreme Fire Danger"
+    RFD = "Extreme Fire Danger"
     EWW = "Extreme Wind Warning"
     FRW = "Fire Warning"
     FWA = "Fire Weather Watch"
@@ -178,86 +174,79 @@ class AlertType(Enum):
     FLA = "Flood Watch"
     FZW = "Freeze Warning"
     FZA = "Freeze Watch"
-    FREEZING_FOG = "Freezing Fog Advisory"
-    FREEZING_RAIN = "Freezing Rain Advisory"
-    F_SPRAY_Y = "Freezing Spray Advisory"
-    FZY = "Frost Advisory"
-    GALE_WARN = "Gale Warning"
-    GALE_WATCH = "Gale Watch"
-    HARD_FREEZE_WARN = "Hard Freeze Warning"
-    HARD_FREEZE_WATCH = "Hard Freeze Watch"
+    ZYY = "Freezing Spray Advisory"
+    ZFY = "Freezing Fog Advisory"
+    FRY = "Frost Advisory"
+    GLW = "Gale Warning"
+    GLA = "Gale Watch"
+    HZA = "Hard Freeze Watch"
+    HZW = "Hard Freeze Warning"
     HMW = "Hazardous Materials Warning"
-    HAZARDOUS_SEAS_WARN = "Hazardous Seas Warning"
-    HAZARDOUS_SEAS_WATCH = "Hazardous Seas Watch"
-    HWO = "Hazardous Weather Outlook"
+    SEW = "Hazardous Seas Warning"
+    SEA = "Hazardous Seas Watch"
     HTY = "Heat Advisory"
-    F_SPRAY_W = "Heavy Freezing Spray Warning"
-    F_SPRAY_A = "Heavy Freezing Spray Watch"
-    H_SURF_Y = "High Surf Advisory"
-    H_SURF_W = "High Surf Warning"
+    UPW = "Heavy Freezing Spray Warning"
+    UPA = "Heavy Freezing Spray Watch"
+    UPY = "Heavy Freezing Spray Advisory"
+    SUY = "High Surf Advisory"
+    SUW = "High Surf Warning"
     HWW = "High Wind Warning"
     HWA = "High Wind Watch"
-    FORCE_12_W = "Hurricane Force Wind Warning"
-    FORCE_12_A = "Hurricane Force Wind Watch"
+    HFW = "Hurricane Force Wind Warning"
+    HFA = "Hurricane Force Wind Watch"
     HLS = "Tropical Cyclone Statement"
     HUW = "Hurricane Warning"
     HUA = "Hurricane Watch"
-    HYDRO_ADV = "Hydrologic Advisory"
     ESF = "Hydrologic Outlook"
-    ICE = "Ice Storm Warning"
-    LE_SNOW_Y = "Lake Effect Snow Advisory"
-    LE_SNOW_W = "Lake Effect Snow Warning"
-    LE_SNOW_A = "Lake Effect Snow Watch"
-    LAKE_WIND = "Lake Wind Advisory"
-    LFY = "Lakeshore Flood Advisory"
-    LFS = "Lakeshore Flood Statement"
-    LFW = "Lakeshore Flood Warning"
-    LFA = "Lakeshore Flood Watch"
+    ISW = "Ice Storm Warning"
+    WSW_LEW = "Lake Effect Snow Warning"
+    LWY = "Lake Wind Advisory"
+    LSY = "Lakeshore Flood Advisory"
+    LSS = "Lakeshore Flood Statement"
+    LSW = "Lakeshore Flood Warning"
+    LSA = "Lakeshore Flood Watch"
     LEW = "Law Enforcement Warning"
     LAE = "Local Area Emergency"
-    LOW_WATER = "Low Water Advisory"
+    LOY = "Low Water Advisory"
     MWS = "Marine Weather Statement"
     NUW = "Nuclear Power Plant Warning"
     RHW = "Radiological Hazard Warning"
     RFW = "Red Flag Warning"
-    RIP_CURRENT = "Rip Current Statement"
+    RPS = "Rip Current Statement"
     SVR = "Severe Thunderstorm Warning"
     SVA = "Severe Thunderstorm Watch"
     SVS = "Severe Weather Statement"
     SPW = "Shelter In Place Warning"
-    NOW = "Short Term Forecast"
     SCY = "Small Craft Advisory"
-    SCY_SEAS = "Small Craft Advisory For Hazardous Seas"
-    SCY_BAR = "Small Craft Advisory For Rough Bar"
-    SCY_WIND = "Small Craft Advisory For Winds"
-    FLY_SMALL_STREAM = "Small Stream Flood Advisory"
+    SWY = "Small Craft Advisory For Hazardous Seas"
+    RBY = "Small Craft Advisory For Rough Bar"
+    SIY = "Small Craft Advisory For Winds"
     SQW = "Snow Squall Warning"
     SMW = "Special Marine Warning"
     SPS = "Special Weather Statement"
     SSW = "Storm Surge Warning"
     SSA = "Storm Surge Watch"
-    STORM_W = "Storm Warning"
-    STORM_A = "Storm Watch"
-    TEST = "Test Message"
+    SRW = "Storm Warning"
+    SRA = "Storm Watch"
+    TST = "Test Message"
     TOR = "Tornado Warning"
     TOA = "Tornado Watch"
     TRW = "Tropical Storm Warning"
     TRA = "Tropical Storm Watch"
     TSY = "Tsunami Advisory"
-    TSW = "Tsunami Warning"
+    TSU = "Tsunami Warning"
     TSA = "Tsunami Watch"
-    TYLS = "Typhoon Local Statement"
+    TYS = "Typhoon Local Statement"
     TYW = "Typhoon Warning"
     TYA = "Typhoon Watch"
-    FLY_URBAN = "Urban And Small Stream Flood Advisory"
     VOW = "Volcano Warning"
-    WIND = "Wind Advisory"
+    WIY = "Wind Advisory"
     WCY = "Wind Chill Advisory"
     WCW = "Wind Chill Warning"
     WCA = "Wind Chill Watch"
     WSW = "Winter Storm Warning"
     WSA = "Winter Storm Watch"
-    WSY = "Winter Weather Advisory"
+    WWY = "Winter Weather Advisory"
 
 
 class SpecialAlert(Enum):
@@ -268,7 +257,7 @@ class SpecialAlert(Enum):
     PDS_SVR = "**Severe Thunderstorm Warning (Extremely Dangerous Situation)**"
     PDS_TOR = "**Tornado Warning (PDS)**"
     PDS_BZW = "**Blizzard Warning (PDS)**"
-    PDS_ICE = "**Ice Storm Warning (PDS)**"
+    PDS_ISW = "**Ice Storm Warning (PDS)**"
     PDS_RFW = "**Red Flag Warning (PDS)**"
     PDS_TOA = "**Tornado Watch (PDS)**"
     PDS_SVA = "**Severe Thunderstorm Watch (PDS)**"
@@ -370,22 +359,25 @@ class AutoplotSector(Enum):
 STR_ALERTS = {a.value for a in AlertType}
 MARINE_ALERTS = {
     AlertType.BWY,
-    AlertType.F_SPRAY_Y,
-    AlertType.GALE_WARN,
-    AlertType.GALE_WATCH,
-    AlertType.HAZARDOUS_SEAS_WARN,
-    AlertType.HAZARDOUS_SEAS_WATCH,
-    AlertType.F_SPRAY_A,
-    AlertType.F_SPRAY_W,
-    AlertType.FORCE_12_A,
-    AlertType.FORCE_12_W,
+    AlertType.UPY,
+    AlertType.GLW,
+    AlertType.GLA,
+    AlertType.SEW,
+    AlertType.SEA,
+    AlertType.UPA,
+    AlertType.UPW,
+    AlertType.SRA,
+    AlertType.SRW,
+    AlertType.HFA,
+    AlertType.HFW,
     AlertType.MWS,
     AlertType.SCY,
-    AlertType.SCY_BAR,
-    AlertType.SCY_SEAS,
-    AlertType.SCY_WIND,
+    AlertType.RBY,
+    AlertType.SWY,
+    AlertType.SIY,
     AlertType.SMW,
-    AlertType.LOW_WATER,
+    AlertType.LOY,
+    AlertType.ZYY,
 }
 REQUIRED_ALERTS = {
     AlertType.TOR,
@@ -394,12 +386,12 @@ REQUIRED_ALERTS = {
     AlertType.CDW,
     AlertType.CEM,
     AlertType.WSW,
-    AlertType.ICE,
+    AlertType.ISW,
     AlertType.BZW,
     AlertType.LEW,
     AlertType.LAE,
     AlertType.EWW,
-    AlertType.TSW,
+    AlertType.TSU,
     AlertType.EQW,
     AlertType.EVI,
     AlertType.BLU,
@@ -433,7 +425,6 @@ ALERTS_WITH_NO_END_TIME = {
     AlertType.HUA,
     AlertType.HUW,
     AlertType.HLS,
-    AlertType.HWO,
     AlertType.ESF,
     AlertType.CEM,
     AlertType.CAE,
@@ -448,28 +439,26 @@ ALERTS_WITH_NO_END_TIME = {
     AlertType.FRW,
     AlertType.TOE,
     AlertType.NOW,
-    AlertType.TSW,
+    AlertType.TSU,
     AlertType.TSA,
     AlertType.TSY,
     AlertType.AVA,
     AlertType.AVW,
-    AlertType.AVY,
+    AlertType.SAB,
     AlertType.BLU,
 }
 STR_ALERTS_WITH_NO_END_TIME = {a.value for a in ALERTS_WITH_NO_END_TIME}
 DEFAULT_EMOJI = {
     AlertType.ADR.value: ":newspaper:",
-    AlertType.AVY.value: ":mountain_snow:",
     AlertType.AVA.value: ":mountain_snow:",
     AlertType.AVW.value: ":mountain_snow:",
     AlertType.BHS.value: ":beach:",
     AlertType.BLU.value: ":blue_square",
     AlertType.BZW.value: ":exclamation: :cloud_snow:",
     SpecialAlert.PDS_BZW.value: ":bangbang: :cloud_snow:",
-    AlertType.BZA.value: ":exclamation: :cloud_snow:",
     AlertType.CAE.value: ":orange_square:",
-    AlertType.FOG.value: ":fog:",
-    AlertType.SMOKE.value: ":fog:",
+    AlertType.FGY.value: ":fog:",
+    AlertType.SMY.value: ":fog:",
     AlertType.EHW.value: ":hot_face:",
     AlertType.EHA.value: ":sunny:",
     AlertType.EWW.value: ":bangbang: :wind_face:",
@@ -484,9 +473,9 @@ DEFAULT_EMOJI = {
     AlertType.HUW.value: ":cyclone:",
     AlertType.HUA.value: ":cyclone:",
     AlertType.ESF.value: ":bar_chart:",
-    AlertType.ICE.value: ":exclamation: :ice_cube:",
-    SpecialAlert.PDS_ICE.value: ":bangbang: :ice_cube:",
-    AlertType.LAKE_WIND.value: ":wind_face:",
+    AlertType.ISW.value: ":exclamation: :ice_cube:",
+    SpecialAlert.PDS_ISW.value: ":bangbang: :ice_cube:",
+    AlertType.LWY.value: ":wind_face:",
     AlertType.LEW.value: ":rotating_light:",
     AlertType.RHW.value: ":biohazard:",
     AlertType.RFW.value: ":triangular_flag_on_post:",
@@ -507,12 +496,12 @@ DEFAULT_EMOJI = {
     AlertType.TRA.value: ":cyclone:",
     AlertType.TSY.value: ":exclamation: :ocean:",
     AlertType.TSA.value: ":ocean:",
-    AlertType.TSW.value: ":bangbang: :ocean:",
-    AlertType.TYLS.value: ":cyclone:",
+    AlertType.TSU.value: ":bangbang: :ocean:",
+    AlertType.TYS.value: ":cyclone:",
     AlertType.TYW.value: ":cyclone:",
     AlertType.TYA.value: ":cyclone:",
     AlertType.VOW.value: ":volcano:",
-    AlertType.WIND.value: ":wind_face:",
+    AlertType.WIY.value: ":wind_face:",
     AlertType.WCY.value: ":cold_face:",
     AlertType.WCA.value: ":exclamation: :cold_face:",
     AlertType.WCW.value: ":bangbang: :cold_face:",
@@ -521,7 +510,7 @@ DEFAULT_EMOJI = {
     AlertType.ECW.value: ":bangbang: :cold_face:",
     AlertType.WSW.value: ":cloud_snow:",
     AlertType.WSA.value: ":exclamation: :snowflake:",
-    AlertType.WSY.value: ":snowflake:",
-    AlertType.H_SURF_Y.value: ":surfer:",
-    AlertType.H_SURF_W.value: ":exclamation: :surfer:",
+    AlertType.WWY.value: ":snowflake:",
+    AlertType.SUY.value: ":surfer:",
+    AlertType.SUW.value: ":exclamation: :surfer:",
 }
